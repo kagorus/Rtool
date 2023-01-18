@@ -8,4 +8,8 @@
     document.getElementById("mechsRead").innerHTML=Files.length;
 
  }
+ function updateLoad(){
+   document.getElementById("jsonsRead").innerHTML="Directories's Scanned : " + DirectoriesScanned;
+
+}
  
