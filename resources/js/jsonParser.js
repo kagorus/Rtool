@@ -7,7 +7,10 @@ const IgnoreDir =["..",".",".git"]
 //Leave me Blank After Writing Directory Chooser
 const WorkingDir = "/home/kagorus/RogueTech/";
 
+
 let readDir = async (dir,slash) => {
+    //Checks to make sure WorkingDir is set.
+    if(dir != false){
     let entries = '';
     try {
         entries = await Neutralino.filesystem.readDirectory(dir);
@@ -18,7 +21,7 @@ let readDir = async (dir,slash) => {
     //console.log(entries);
     //console.log(dir);
     entries.forEach(current => {
-        //console.log(current);
+        //console.log(current); 
         if(current.type == "FILE" && current.entry.substr(-5) == ".json"){
             //console.log(current.entry);            
             Files.push({FileName:current.entry,"Directory":dir});
@@ -36,8 +39,14 @@ let readDir = async (dir,slash) => {
     //Checks to see if any directories need scanning
     checkDirectories(slash);
   }
-  readDir(WorkingDir,"");
+  else{
+    WorkingDir="No Working Dir Set";
+    Files="No Working Dir Set";
+  }
+}
 
+//Start Reader On App Start
+readDir(WorkingDir,"");
 
 function checkDirectories(slash){
     let current = Directories[0].Directory + slash + Directories[0].ToScan;
@@ -49,6 +58,8 @@ function checkDirectories(slash){
         readDir(current,"/");
     }
     else{
+        //Code To Run When We're done reading json files and sorting them
+        populateStatus()
         console.log("Jsons Detected: " + Files.length);
     }
 }
