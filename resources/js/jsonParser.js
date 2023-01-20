@@ -1,14 +1,9 @@
-/* To Do Today :
-        Split jsons based on what mod/folder they're in using the mod.json files.
-*/
 const Directories = [];
 const Files = [];
 const IgnoreDir = ["..", ".", ".git"];
 const currentDir = [];
 const FolderClasses = [];
-const JsonIgnore = [
-
-];
+const JsonIgnore = [];
 let DirectoriesScanned = 0;
 
 //Sorted JSONS
@@ -24,40 +19,50 @@ const WorkingDir = "/home/kagorus/RogueTech";
 
 async function readDir(dir, slash) {
   //Checks to make sure WorkingDir is set.
-  if (dir != false) {
-    let entries = "";
-    try {
-      entries = await Neutralino.filesystem.readDirectory(dir);
-    } catch (err) {
-      console.error(err);
-    }
-    //console.log(entries);
-    //console.log(dir);
-    entries.forEach((current) => {
-      //console.log(current);
-      if (current.type == "FILE" && current.entry.substr(-5) == ".json") {
-        //console.log(current.entry);
-        if (current.entry == "mod.json") {
-          if (readModJson(dir + slash + current.entry, dir)) {
-          }
-        } else if (!JsonIgnore.includes(current.entry)) {
-          //If Not mod.json
-          Files.push({ FileName: current.entry, Directory: dir });
-        }
-      } else if (current.type == "DIRECTORY") {
-        //console.log(current.entry);
-        if (!IgnoreDir.includes(current.entry)) {
-          Directories.push({ ToScan: current.entry, Directory: dir });
-        }
-      }
-    });
-    //console.log("Jsons Detected: " + Files.length + "  " + JSON.stringify(Files,null,4));
-    //console.log("Folders Detected: " + Directories.length + "  " + JSON.stringify(Directories,null,4));
-    //Checks to see if any directories need scanning
-    checkDirectories(slash);
-  } else {
+  if (!dir) {
+    //Show user an error.
+    console.log("You Forgot to set a working DIR");
     WorkingDir = "No Working Dir Set";
-    Files = "No Working Dir Set";
+    //Files = "No Working Dir Set";
+  } else {
+    let entries = "";
+    //Checks to make sure the directory exsists and throws an error if not (Slows down Scanning a bit)
+    if (Neutralino.filesystem.readDirectory(dir).code !== "NE_FS_NOPATHE") {
+      entries = await Neutralino.filesystem.readDirectory(dir);
+      //if(Neutralino.filesystem.getStats(dir)){}
+
+      //console.log(entries);
+      //console.log(dir);
+      entries.forEach((current) => {
+        //console.log(current);
+        if (current.type == "FILE" && current.entry.substr(-5) == ".json") {
+          //console.log(current.entry);
+          if (current.entry == "mod.json") {
+            readModJson(dir + slash + current.entry, dir);
+          } else if (!JsonIgnore.includes(current.entry)) {
+            //If Not mod.json
+            Files.push({ FileName: current.entry, Directory: dir });
+          }
+        } else if (current.type == "DIRECTORY") {
+          //console.log(current.entry);
+          if (!IgnoreDir.includes(current.entry)) {
+            Directories.push({ ToScan: current.entry, Directory: dir });
+          }
+        }
+      });
+      //console.log("Jsons Detected: " + Files.length + "  " + JSON.stringify(Files,null,4));
+      //console.log("Folders Detected: " + Directories.length + "  " + JSON.stringify(Directories,null,4));
+      //Checks to see if any directories need scanning
+      checkDirectories(slash);
+    } else {
+      //Dump An Error here.
+      console.log(
+        "Error no directory set or path doesn't exist: " +
+          dir +
+          " WorkingDir: " +
+          WorkingDir
+      );
+    }
   }
 }
 
@@ -114,15 +119,14 @@ function checkDirectories(slash) {
 function sortJsons() {
   Files.forEach((element) => {
     let lookupPath = element.Directory;
-    lookupPath = lookupPath.split("/");
-    lookupPath = lookupPath.pop();
+    lookupPath = lookupPath.split("/").pop();
     //console.log(lookupPath);
     let found = FolderClasses.filter(
       (FolderClasses) => FolderClasses.Path == lookupPath
     );
 
     //console.log (found);
-    try {
+    if (found.length) {
       data = found[0].Type;
       switch (data) {
         case "MechDef":
@@ -140,10 +144,13 @@ function sortJsons() {
         case "UpgradeDef":
           UpgradeDef.push(element);
           break;
+        case "JumpJetDef":
+          JumpJetDef.push(element);
+          break;
         default:
           break;
       }
-    } catch (error) {}
+    }
   });
   console.log("Mechs Detected :  " + MechDef.length);
   console.log("Chassis Detected :  " + ChassisDef.length);
@@ -151,5 +158,5 @@ function sortJsons() {
   console.log("HeatSinks Detected :  " + Heatsink.length);
   console.log("Upgrades Detected :  " + UpgradeDef.length);
 
-  console.log(Heatsink);
+  //console.log(Heatsink);
 }
