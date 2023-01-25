@@ -13,9 +13,12 @@ const ChassisDef = [];
 const Heatsink = [];
 const UpgradeDef = [];
 const JumpJetDef = [];
+const VehicleChassisDef = [];
+
 
 //Leave me Blank After Writing Directory Chooser
 const WorkingDir = "/home/kagorus/RogueTech";
+
 
 async function readDir(dir, slash) {
   //Checks to make sure WorkingDir is set.
@@ -27,35 +30,9 @@ async function readDir(dir, slash) {
   } else {
     let entries = "";
     //Checks to make sure the directory exsists and throws an error if not (Slows down Scanning a bit)
-    if (Neutralino.filesystem.readDirectory(dir).code !== "NE_FS_NOPATHE") {
+    try {
       entries = await Neutralino.filesystem.readDirectory(dir);
-      //if(Neutralino.filesystem.getStats(dir)){}
-
-      //console.log(entries);
-      //console.log(dir);
-      entries.forEach((current) => {
-        //console.log(current);
-        if (current.type == "FILE" && current.entry.substr(-5) == ".json") {
-          //console.log(current.entry);
-          if (current.entry == "mod.json") {
-            readModJson(dir + slash + current.entry, dir);
-          } else if (!JsonIgnore.includes(current.entry)) {
-            //If Not mod.json
-            Files.push({ FileName: current.entry, Directory: dir });
-          }
-        } else if (current.type == "DIRECTORY") {
-          //console.log(current.entry);
-          if (!IgnoreDir.includes(current.entry)) {
-            Directories.push({ ToScan: current.entry, Directory: dir });
-          }
-        }
-      });
-      //console.log("Jsons Detected: " + Files.length + "  " + JSON.stringify(Files,null,4));
-      //console.log("Folders Detected: " + Directories.length + "  " + JSON.stringify(Directories,null,4));
-      //Checks to see if any directories need scanning
-      checkDirectories(slash);
-    } else {
-      //Dump An Error here.
+    } catch (error) {
       console.log(
         "Error no directory set or path doesn't exist: " +
           dir +
@@ -63,6 +40,32 @@ async function readDir(dir, slash) {
           WorkingDir
       );
     }
+
+    //if(Neutralino.filesystem.getStats(dir)){}
+
+    //console.log(entries);
+    //console.log(dir);
+    entries.forEach((current) => {
+      //console.log(current);
+      if (current.type == "FILE" && current.entry.substr(-5) == ".json") {
+        //console.log(current.entry);
+        if (current.entry == "mod.json") {
+          readModJson(dir + slash + current.entry, dir);
+        } else if (!JsonIgnore.includes(current.entry)) {
+          //If Not mod.json
+          Files.push({ FileName: current.entry, Directory: dir });
+        }
+      } else if (current.type == "DIRECTORY") {
+        //console.log(current.entry);
+        if (!IgnoreDir.includes(current.entry)) {
+          Directories.push({ ToScan: current.entry, Directory: dir });
+        }
+      }
+    });
+    //console.log("Jsons Detected: " + Files.length + "  " + JSON.stringify(Files,null,4));
+    //console.log("Folders Detected: " + Directories.length + "  " + JSON.stringify(Directories,null,4));
+    //Checks to see if any directories need scanning
+    checkDirectories(slash);
   }
 }
 
@@ -147,6 +150,9 @@ function sortJsons() {
         case "JumpJetDef":
           JumpJetDef.push(element);
           break;
+        case "VehicleChassisDef":
+          VehicleChassisDef.push(element);
+          break;
         default:
           break;
       }
@@ -157,6 +163,11 @@ function sortJsons() {
   console.log("Weapons Detected :  " + Weapon.length);
   console.log("HeatSinks Detected :  " + Heatsink.length);
   console.log("Upgrades Detected :  " + UpgradeDef.length);
+  console.log("VehicleChassis Detected :  " + VehicleChassisDef.length);
+
+  findUnusedModels(ChassisDef,VehicleChassisDef);
 
   //console.log(Heatsink);
 }
+
+
