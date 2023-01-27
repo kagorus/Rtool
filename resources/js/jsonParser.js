@@ -3,7 +3,8 @@ const Files = [];
 const IgnoreDir = ["..", ".", ".git"];
 const currentDir = [];
 const FolderClasses = [];
-const JsonIgnore = [];
+const JsonIgnore = ["mechdef_deploy_director.json"];
+
 let DirectoriesScanned = 0;
 
 //Sorted JSONS
@@ -15,10 +16,8 @@ const UpgradeDef = [];
 const JumpJetDef = [];
 const VehicleChassisDef = [];
 
-
 //Leave me Blank After Writing Directory Chooser
 const WorkingDir = "/home/kagorus/RogueTech";
-
 
 async function readDir(dir, slash) {
   //Checks to make sure WorkingDir is set.
@@ -26,7 +25,6 @@ async function readDir(dir, slash) {
     //Show user an error.
     console.log("You Forgot to set a working DIR");
     WorkingDir = "No Working Dir Set";
-    //Files = "No Working Dir Set";
   } else {
     let entries = "";
     //Checks to make sure the directory exsists and throws an error if not (Slows down Scanning a bit)
@@ -40,15 +38,8 @@ async function readDir(dir, slash) {
           WorkingDir
       );
     }
-
-    //if(Neutralino.filesystem.getStats(dir)){}
-
-    //console.log(entries);
-    //console.log(dir);
     entries.forEach((current) => {
-      //console.log(current);
       if (current.type == "FILE" && current.entry.substr(-5) == ".json") {
-        //console.log(current.entry);
         if (current.entry == "mod.json") {
           readModJson(dir + slash + current.entry, dir);
         } else if (!JsonIgnore.includes(current.entry)) {
@@ -56,21 +47,17 @@ async function readDir(dir, slash) {
           Files.push({ FileName: current.entry, Directory: dir });
         }
       } else if (current.type == "DIRECTORY") {
-        //console.log(current.entry);
         if (!IgnoreDir.includes(current.entry)) {
           Directories.push({ ToScan: current.entry, Directory: dir });
         }
       }
     });
-    //console.log("Jsons Detected: " + Files.length + "  " + JSON.stringify(Files,null,4));
-    //console.log("Folders Detected: " + Directories.length + "  " + JSON.stringify(Directories,null,4));
     //Checks to see if any directories need scanning
     checkDirectories(slash);
   }
 }
 
 async function readModJson(file, dir) {
-  //console.log(file);
   //Checks to make sure WorkingDir is set.
   if (file != false) {
     let entries = "";
@@ -83,24 +70,20 @@ async function readModJson(file, dir) {
     try {
       let data = JSON.parse(entries).Manifest;
       data.forEach((element) => {
-        //console.log(element);
         FolderClasses.push({
           Folder: dir,
           Path: element.Path,
           Type: element.Type,
         });
       });
-      //console.log(JSON.parse(entries).Manifest);
     } catch (error) {}
   }
 }
 
 function checkDirectories(slash) {
   let current = Directories[0].Directory + "/" + Directories[0].ToScan;
-  //console.log(current);
   Directories.shift();
   if (Directories.length != 0) {
-    //console.log("Folders Detected: " + Directories.length + "  " + JSON.stringify(Directories,null,4));
     readDir(current, "/");
 
     DirectoriesScanned++;
@@ -113,9 +96,6 @@ function checkDirectories(slash) {
     console.log(
       "First Json: " + Files[0].FileName + " : " + Files[0].Directory
     );
-    //console.log("Folders Scanned :" + JSON.stringify(FolderClasses,null,2));
-    //console.log(JSON.stringify(FolderClasses[0].Folder, null, 4));
-    //console.log("Json is of : " + found[0].Type + " Type");
   }
 }
 
@@ -123,13 +103,11 @@ function sortJsons() {
   Files.forEach((element) => {
     let lookupPath = element.Directory;
     lookupPath = lookupPath.split("/").pop();
-    //console.log(lookupPath);
     let found = FolderClasses.filter(
       (FolderClasses) => FolderClasses.Path == lookupPath
     );
 
-    //console.log (found);
-    if (found.length) {
+    if (found.length && !JsonIgnore.includes(element.FileName)) {
       data = found[0].Type;
       switch (data) {
         case "MechDef":
@@ -164,10 +142,6 @@ function sortJsons() {
   console.log("HeatSinks Detected :  " + Heatsink.length);
   console.log("Upgrades Detected :  " + UpgradeDef.length);
   console.log("VehicleChassis Detected :  " + VehicleChassisDef.length);
-
-  findUnusedModels(ChassisDef,VehicleChassisDef);
-
-  //console.log(Heatsink);
+  //CAB TEST CODE DO NOT CALL IT FROM HERE ANYMORE
+  //findUnusedModels(ChassisDef,VehicleChassisDef);
 }
-
-

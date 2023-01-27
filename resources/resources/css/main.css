@@ -22,7 +22,7 @@ div.mainBody {
 
 div.buttonContainer {
   background-color: rgb(44, 41, 41);
-  width: 20%;
+  width: 30%;
   height: 85%;
   margin: 2%;
   margin: auto;
@@ -34,7 +34,7 @@ div.buttonContainer {
 }
 div.editBody {
   background-color: rgb(44, 41, 41);
-  width: 79%;
+  width: 69%;
   height: 85%;
   margin: 2%;
   margin: auto;
@@ -84,8 +84,16 @@ div.buttonChooser{
 
 div.returnedItem{
   width:100%;
-  height:30px;
+  height:60px;
   font-size: small;
+  border-bottom:2px;
+  border-color: rgb(73, 73, 73);
+  border-style: solid;
+}
+div.returnedItemTools{
+  width:100%;
+  height:30px;
+  font-size: x-small;
   border-bottom:2px;
   border-color: rgb(73, 73, 73);
   border-style: solid;

@@ -31,7 +31,7 @@ function updateLoad() {
   document.getElementById("directoriesRead").innerHTML =
     "Directories's Scanned : " + DirectoriesScanned;
 }
-
+function showJsonInfo(input) {}
 function updateList() {
   let returnedData = "";
   let category = document.getElementById("categoryChooser").value;
@@ -40,23 +40,57 @@ function updateList() {
   switch (category) {
     case "MechDef":
       MechDef.forEach((element) => {
-        returnedData =
-          returnedData +
-          "<div class='returnedItem'>" +
-          element.FileName.substr(8) +
-          "</div>";
+        if (element.FileName.toLowerCase().includes(search)) {
+          returnedData =
+            returnedData +
+            "<div class='returnedItem'>" +
+            element.FileName.substr(0) +
+            "<div class='returnedItemTools'>"+element.Directory+"</div></div>";
+        }
       });
       break;
     case "Weapon":
       Weapon.forEach((element) => {
-        returnedData =
-          returnedData +
-          "<div class='returnedItem'onclick(showJsonInfo('" +
-          element.Directory +
-          element.FileName +
-          "'))>" +
-          element.FileName.substr(7) +
-          "</div>";
+        if (element.FileName.toLowerCase().includes(search)) {
+          returnedData =
+            returnedData +
+            "<div class='returnedItem'>" +
+            element.FileName.substr(0) +
+            "</div>";
+        }
+      });
+      break;
+    case "Heatsink":
+      Heatsink.forEach((element) => {
+        if (element.FileName.toLowerCase().includes(search)) {
+          returnedData =
+            returnedData +
+            "<div class='returnedItem'>" +
+            element.FileName.substr(0) +
+            "</div>";
+        }
+      });
+      break;
+    case "UpgradeDef":
+      UpgradeDef.forEach((element) => {
+        if (element.FileName.toLowerCase().includes(search)) {
+          returnedData =
+            returnedData +
+            "<div class='returnedItem'>" +
+            element.FileName.substr(0) +
+            "</div>";
+        }
+      });
+      break;
+    case "JumpJetDef":
+      JumpJetDef.forEach((element) => {
+        if (element.FileName.toLowerCase().includes(search)) {
+          returnedData =
+            returnedData +
+            "<div class='returnedItem'>" +
+            element.FileName.substr(0) +
+            "</div>";
+        }
       });
       break;
     default:
