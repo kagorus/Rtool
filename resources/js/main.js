@@ -1,12 +1,15 @@
 //Makes Neutralino work.
 Neutralino.init();
 
+
+//Read Settings
+
 //Starts Main Json Read
-readDir(WorkingDir, "/");
+getWorkingDir();
 
 //Populate Main Page with Data
 
-//Code to run when json reading is done
+//Code to run when json reading is done 
 function populateStatus() {
   document.getElementById("workingDir").innerHTML = WorkingDir;
   document.getElementById("jsonsRead").innerHTML =
@@ -96,7 +99,6 @@ function updateList() {
     default:
       break;
   }
-
-  //console.log(category + "  " + returnedData);
+  //Return Data When Done
   document.getElementById("searchData").innerHTML = returnedData;
 }

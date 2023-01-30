@@ -17,7 +17,18 @@ const JumpJetDef = [];
 const VehicleChassisDef = [];
 
 //Leave me Blank After Writing Directory Chooser
-const WorkingDir = "/home/kagorus/RogueTech";
+let WorkingDir = "";
+//Grabs Settings from Setting File
+async function getWorkingDir(){
+  try {
+      let workingdir =await readSetting("WorkingDir");
+      WorkingDir = await JSON.parse(workingdir).Setting;
+      readDir(WorkingDir,"/");
+  } catch (error) {
+    console.log(error);
+  }
+  
+}
 
 async function readDir(dir, slash) {
   //Checks to make sure WorkingDir is set.

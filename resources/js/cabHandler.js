@@ -15,35 +15,34 @@ let cabAssets = [];
 let prefabsUsed = [];
 //CAB TEST CODE
 //Legacy
-const CabTank = "/home/kagorus/Games/RtlCache/CabCache/cabTank/CAB-Tank/";
 
 const Cabs = [
   {
-    Cab: "/home/kagorus/Games/RtlCache/CabCache/cabTank/CAB-Tank/",
+    Cab: "",
     Name: "CAB-Tank",
   },
   {
-    Cab: "/home/kagorus/Games/RtlCache/CabCache/cabClan/CAB-Clan Mech/",
+    Cab: "",
     Name: "CAB-Clan",
   },
   {
-    Cab: "/home/kagorus/Games/RtlCache/CabCache/cabCU/CAB-CU/",
+    Cab: "",
     Name: "CAB-CU",
   },
   {
-    Cab: "/home/kagorus/Games/RtlCache/CabCache/cabMisc/CAB-Misc/",
+    Cab: "",
     Name: "CAB-Misc",
   },
   {
-    Cab: "/home/kagorus/Games/RtlCache/CabCache/cab3025/CAB-3025/",
+    Cab: "",
     Name: "CAB-3025",
   },
   {
-    Cab: "/home/kagorus/Games/RtlCache/CabCache/cabIs/CAB-IS Mech/",
+    Cab: "",
     Name: "CAB-IS Mech",
   },
   {
-    Cab: "/home/kagorus/Games/RtlCache/CabCache/cabMisc/CAB-Misc/",
+    Cab: "",
     Name: "CAB-Misc",
   },
 ];

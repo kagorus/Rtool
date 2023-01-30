@@ -18,7 +18,8 @@
     "os.*",
     "debug.log",
     "computer.*",
-    "filesystem.*"
+    "filesystem.*",
+    "storage.*"
   ],
   "globalVariables": {
     "TEST1": "Hello",
