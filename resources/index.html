@@ -5,16 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>RTool</title>
     <link rel="stylesheet" href="resources/css/main.css" />
-    <link rel="icon" type="image/x-icon" href="resources/img/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="resources/img/favicon.ico" />
     <script src="js/neutralino.js"></script>
     <script src="js/jsonParser.js"></script>
     <script src="js/cabHandler.js"></script>
     <script src="js/settingsHandler.js"></script>
+    <script src="js/cacheHandler.js"></script>
+    <script src="js/pageUpdater.js"></script>
     <script src="js/main.js"></script>
   </head>
   <body>
     <div class="mainBody">
       <div id="statusBar">
+        <div class="statusBarItem">
+          <button id="startLoadButton" onclick="readDir(WorkingDir,'/')">
+            Start Load
+          </button>
+        </div>
         <div class="statusBarItem">Working Directory :</div>
         <div class="statusBarItem" id="workingDir">Not Set</div>
         <div class="statusBarItem" id="jsonsRead">0</div>
@@ -33,7 +40,7 @@
           </select>
 
           <label for="fname"></label>
-          <input type="text" id="searchBox" name="fname"/>
+          <input type="text" id="searchBox" name="fname" />
 
           <label for="fname"></label>
           <input
@@ -46,7 +53,10 @@
         </div>
         <div class="searchData" id="searchData">Data goes here</div>
       </div>
-      <div class="editBody"><div id="counter">Counter</div>Test</div>
+      <div class="editBody">
+        <div id="counter">Counter</div>
+        <textarea id="editor" name="fname"></textarea>
+      </div>
     </div>
   </body>
 </html>

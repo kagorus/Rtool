@@ -1,36 +1,62 @@
-const Directories = [];
-const Files = [];
+let Directories = [];
+let Files = [];
 const IgnoreDir = ["..", ".", ".git"];
-const currentDir = [];
-const FolderClasses = [];
-const JsonIgnore = ["mechdef_deploy_director.json"];
+let currentDir = [];
+let FolderClasses = [];
+const JsonIgnore = [
+  "mechdef_deploy_director.json",
+  "solaris_offseason_4x4freeforall_mech_2.json",
+  "solaris_offseason_8x8ctf_mech_2.json",
+  "solaris_offseason_4x4battle_mech_5.json",
+  "solaris_offseason_4x4battle_mech_2.json",
+  "solaris_offseason_4x4freeforall_mech_5.json",
+  "solaris_offseason_1x1Duel_mech.json",
+  "solaris_offseason_2x2Duel_mech.json",
+  "solaris_offseason_8x8battle_mech_5.json",
+  "solaris_offseason_8x8battle_mech_5.json",
+  "solaris_offseason_4x4battle_mech_8.json",
+  "solaris_offseason_4x4ctf_mech_5.json",
+  "solaris_offseason_4x4freeforall_mech_8.json",
+  "solaris_offseason_8x8ctf_mech_8.json",
+  "solaris_offseason_4x4ctf_mech_2.json",
+  "solaris_offseason_8x8battle_mech_8.json",
+  "solaris_offseason_4x4ctf_mech_8.json",
+  "solaris_offseason_8x8battle_mech_2.json",
+  "solaris_offseason_8x8ctf_mech_5.json",
+  
+];
 
 let DirectoriesScanned = 0;
 
 //Sorted JSONS
-const Weapon = [];
-const MechDef = [];
-const ChassisDef = [];
-const Heatsink = [];
-const UpgradeDef = [];
-const JumpJetDef = [];
-const VehicleChassisDef = [];
+let Weapon = [];
+let MechDef = [];
+let ChassisDef = [];
+let Heatsink = [];
+let UpgradeDef = [];
+let JumpJetDef = [];
+let VehicleChassisDef = [];
 
 //Leave me Blank After Writing Directory Chooser
 let WorkingDir = "";
-//Grabs Settings from Setting File
-async function getWorkingDir(){
-  try {
-      let workingdir =await readSetting("WorkingDir");
-      WorkingDir = await JSON.parse(workingdir).Setting;
-      readDir(WorkingDir,"/");
-  } catch (error) {
-    console.log(error);
-  }
-  
-}
 
 async function readDir(dir, slash) {
+  document.getElementById("startLoadButton").disabled = true;
+  document.getElementById("startLoadButton").innerText = "Working.";
+  if (Weapon.length > 0) {
+    Weapon = [];
+    MechDef = [];
+    ChassisDef = [];
+    Heatsink = [];
+    UpgradeDef = [];
+    JumpJetDef = [];
+    VehicleChassisDef = [];
+    Directories = [];
+    Files = [];
+    currentDir = [];
+    FolderClasses = [];
+    DirectoriesScanned = [];
+  }
   //Checks to make sure WorkingDir is set.
   if (!dir) {
     //Show user an error.
@@ -155,4 +181,12 @@ function sortJsons() {
   console.log("VehicleChassis Detected :  " + VehicleChassisDef.length);
   //CAB TEST CODE DO NOT CALL IT FROM HERE ANYMORE
   //findUnusedModels(ChassisDef,VehicleChassisDef);
+  cacheJsons(MechDef, "Mech");
+  cacheJsons(ChassisDef, "Chassis");
+  cacheJsons(JumpJetDef, "JumpJet");
+  cacheJsons(Weapon, "Weapon");
+  cacheJsons(Heatsink, "Heatsink");
+  cacheJsons(UpgradeDef, "Upgrade");
 }
+
+

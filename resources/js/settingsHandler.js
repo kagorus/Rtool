@@ -1,12 +1,31 @@
 let keys = [];
 let data = [];
-async function readSetting(setting) {
-  // Trys to Read Settings
+let appSettings = [];
+//Reads Keys On Load
+async function readKeys() {
   try {
     keys = await Neutralino.storage.getKeys();
+    loadSettings();
   } catch (error) {
     console.log("No Settings Set:");
   }
+
+  
+  
+}
+async function loadSettings() {
+  data = await readSetting("WorkingDir");
+  let readData = JSON.parse(data);
+  appSettings.push({ WorkingDir: readData.Setting });
+  getWorkingDir();
+}
+async function getWorkingDir() {
+  //0 is allways Working Dir
+  WorkingDir = appSettings[0].WorkingDir;
+  document.getElementById("workingDir").innerHTML = WorkingDir;
+}
+async function readSetting(setting) {
+  // Trys to Read Settings
 
   if (keys.includes(setting)) {
     data = await Neutralino.storage.getData(setting);
@@ -18,7 +37,7 @@ async function readSetting(setting) {
     case "WorkingDir":
       if (data) {
         console.log("Working dir : " + data);
-        return data
+        return data;
       } else {
         console.log("No Working Dir Set");
 
@@ -34,7 +53,7 @@ async function readSetting(setting) {
           }
         );
         console.log(entry);
-        storeSetting("WorkingDir",entry);
+        storeSetting("WorkingDir", entry);
         await Neutralino.app.restartProcess();
       }
       break;
@@ -44,7 +63,7 @@ async function readSetting(setting) {
   }
 }
 
-async function storeSetting(setting,data) {
+async function storeSetting(setting, data) {
   try {
     await Neutralino.storage.setData(
       setting,
@@ -52,6 +71,5 @@ async function storeSetting(setting,data) {
     );
   } catch (error) {
     console.log(error);
-  }  
-  
+  }
 }
