@@ -23,6 +23,9 @@ const JsonIgnore = [
   "solaris_offseason_4x4ctf_mech_8.json",
   "solaris_offseason_8x8battle_mech_2.json",
   "solaris_offseason_8x8ctf_mech_5.json",
+  "Weapon_MeleeAttack.json",
+  "Weapon_DFAAttack.json",
+  "Weapon_Laser_AI_Imaginary.json"
   
 ];
 

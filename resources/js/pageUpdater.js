@@ -22,6 +22,15 @@ function populateStatus() {
 function updateLoad() {
   document.getElementById("directoriesRead").innerHTML =
     "Directories's Scanned : " + DirectoriesScanned;
+  let TotalCache =
+    MechDef.length +
+    ChassisDef.length +
+    Weapon.length +
+    Heatsink.length +
+    UpgradeDef.length +
+    JumpJetDef.length;
+  document.getElementById("CacheRead").innerHTML =
+    "CacheStatus : " + cacheCount + " / " + TotalCache;
 }
 function showJsonInfo(input) {}
 function updateList() {
@@ -65,46 +74,108 @@ function updateList() {
       });
       break;
     case "Weapon":
-      Weapon.forEach((element) => {
-        if (element.FileName.toLowerCase().includes(search)) {
-          returnedData =
-            returnedData +
-            "<div class='returnedItem'>" +
-            element.FileName.substr(0) +
-            "</div>";
+      weaponCache.forEach((element) => {
+        //console.log(element.Description.UIName.toLowerCase());
+        try {
+          if (
+            element.Description.UIName.toLowerCase().includes(
+              search.toLowerCase()
+            )
+          ) {
+            returnedData =
+              returnedData +
+              "<div class='returnedItem'>" +
+              element.Description.UIName.substr(0) +
+              ": " +
+              element.Tonnage +
+              "T :" +
+              "Slots " +
+              element.InventorySize +
+              ": Category " +
+              element.Category +
+              "</div>";
+          }
+        } catch (error) {
+          console.log(error);
+          console.log(element);
         }
       });
       break;
     case "Heatsink":
-      Heatsink.forEach((element) => {
-        if (element.FileName.toLowerCase().includes(search)) {
-          returnedData =
-            returnedData +
-            "<div class='returnedItem'>" +
-            element.FileName.substr(0) +
-            "</div>";
+      heatsinkCache.forEach((element) => {
+        //console.log(element.Description.UIName.toLowerCase());
+        try {
+          if (
+            element.Description.UIName.toLowerCase().includes(
+              search.toLowerCase()
+            )
+          ) {
+            returnedData =
+              returnedData +
+              "<div class='returnedItem'>" +
+              element.Description.UIName.substr(0) +
+              ": " +
+              element.Tonnage +
+              "T :" +
+              "Slots " +
+              element.InventorySize +''
+              "</div>";
+          }
+        } catch (error) {
+          console.log(error);
+          console.log(element);
         }
       });
       break;
     case "UpgradeDef":
-      UpgradeDef.forEach((element) => {
-        if (element.FileName.toLowerCase().includes(search)) {
-          returnedData =
-            returnedData +
-            "<div class='returnedItem'>" +
-            element.FileName.substr(0) +
-            "</div>";
+      upgradeCache.forEach((element) => {
+        //console.log(element.Description.UIName.toLowerCase());
+        try {
+          if (
+            element.Description.UIName.toLowerCase().includes(
+              search.toLowerCase()
+            )
+          ) {
+            returnedData =
+              returnedData +
+              "<div class='returnedItem'>" +
+              element.Description.UIName.substr(0) +
+              ": " +
+              element.Tonnage +
+              "T :" +
+              "Slots " +
+              element.InventorySize +
+              "</div>";
+          }
+        } catch (error) {
+          console.log(error);
+          console.log(element);
         }
       });
       break;
     case "JumpJetDef":
-      JumpJetDef.forEach((element) => {
-        if (element.FileName.toLowerCase().includes(search)) {
-          returnedData =
-            returnedData +
-            "<div class='returnedItem'>" +
-            element.FileName.substr(0) +
-            "</div>";
+      jumpJetCache.forEach((element) => {
+        //console.log(element.Description.UIName.toLowerCase());
+        try {
+          if (
+            element.Description.UIName.toLowerCase().includes(
+              search.toLowerCase()
+            )
+          ) {
+            returnedData =
+              returnedData +
+              "<div class='returnedItem'>" +
+              element.Description.UIName.substr(0) +
+              ": " +
+              element.Tonnage +
+              "T :" +
+              "Slots " +
+              element.InventorySize +
+              "</div>";
+          }
+        } catch (error) {
+          console.log(error);
+          console.log(element);
         }
       });
       break;
@@ -118,27 +189,23 @@ function updateList() {
 function highlight(selected) {
   selected.setAttribute("class", "selected");
   selected.setAttribute("id", "selected");
-
 }
 function dehighlight(selected) {
   selected.setAttribute("class", "returnedItem");
   selected.setAttribute("id", "");
-
 }
-function findSelected(){
-    let data2 = [];
-    let toLoad = document.getElementById("selected");
-    let data = toLoad.innerHTML.split(":").slice()
-    
-    mechCache.forEach(element => {
-        if(element.Description.UIName.includes(data[0])){
-            console.log(element.Description.UIName + "   " + data[0]);
-            data2 = element;
-        }
-        
-        
-    });
+function findSelected() {
+  let data2 = [];
+  let toLoad = document.getElementById("selected");
+  let data = toLoad.innerHTML.split(":").slice();
 
-    document.getElementById('editor').innerText= JSON.stringify(data2,null,0);
-    console.log(data2);
+  mechCache.forEach((element) => {
+    if (element.Description.UIName.includes(data[0])) {
+      console.log(element.Description.UIName + "   " + data[0]);
+      data2 = element;
+    }
+  });
+
+  document.getElementById("editor").innerText = JSON.stringify(data2, null, 0);
+  console.log(data2);
 }
