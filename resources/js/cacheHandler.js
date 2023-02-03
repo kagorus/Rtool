@@ -59,7 +59,13 @@ let cacheCount = 0;
         }
       } catch (error) {
         console.log(error);
-        console.log(defType + "  "+data);
+        console.log(`${defType}  ${entries}  ${data} : ${file} ${element.FileName}`);
+        // document.getElementById("editorGUI").innerHTML=`Comma Detected in ${element.FileName}`
+        // document.getElementById("statusBar").style="background-color:red";
+        await Neutralino.os.showMessageBox(
+          "Error",
+          `Comma Detected In ${element.FileName} Correct File To Continue`
+        );
       }
     });
   }
