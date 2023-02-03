@@ -7,7 +7,7 @@ let jumpJetCache = [];
 let vehicleChassisCache = [];
 let cacheCount = 0;
 
-async function cacheJsons(type, defType) {
+ async function cacheJsons(type, defType) {
     //
 
     type.forEach(async (element) => {
@@ -18,7 +18,7 @@ async function cacheJsons(type, defType) {
         //console.log("Caching..");
       } catch (err) {
         console.error(err);
-        console.error("There was a problem with : " + file);
+        console.error(`There was a problem with : ${file}`);
       }
       try {
         let data = JSON.parse(entries);
@@ -50,7 +50,7 @@ async function cacheJsons(type, defType) {
             break;
           case "Upgrade":
             upgradeCache.push(data);
-            cacheCount = cacheCount + 1;  
+            cacheCount = cacheCount + 1; 
             updateLoad()          
             break;
   

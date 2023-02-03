@@ -12,10 +12,16 @@
     <script src="js/settingsHandler.js"></script>
     <script src="js/cacheHandler.js"></script>
     <script src="js/pageUpdater.js"></script>
+    <script src="js/mechHandler.js"></script>
     <script src="js/main.js"></script>
   </head>
   <body>
     <div class="mainBody">
+      <div class="tools">
+        <div class="menuButton" style="width: 130px" id="restWorkingDir" onclick="resetWorkingDir()">
+          Reset Working Dir
+        </div>
+      </div>
       <div id="statusBar">
         <div class="statusBarItem">
           <button id="startLoadButton" onclick="readDir(WorkingDir,'/')">
@@ -25,8 +31,6 @@
         <div class="statusBarItem">Working Directory :</div>
         <div class="statusBarItem" id="workingDir">Not Set</div>
         <div class="statusBarItem" id="jsonsRead">0</div>
-        <div class="statusBarItem" id="directoriesRead">0</div>
-        <div class="statusBarItem" id="CacheRead">0</div>
       </div>
       <div class="buttonContainer">
         <div class="buttonChooser">
@@ -52,10 +56,14 @@
             onclick="updateList()"
           />
         </div>
-        <div class="searchData" id="searchData">Data goes here</div>
+        <div class="searchData" id="searchData">
+          <div class="cacheProgess">
+            <span id="cacheBarBar" class="barProgress">Hit Load To Begin</span>
+          </div>
+        </div>
       </div>
       <div class="editBody">
-        <div id="counter">Counter</div>
+        <div id="editorGUI">Counter</div>
         <textarea id="editor" name="fname"></textarea>
       </div>
     </div>

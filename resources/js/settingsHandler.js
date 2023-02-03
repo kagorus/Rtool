@@ -39,22 +39,7 @@ async function readSetting(setting) {
         console.log("Working dir : " + data);
         return data;
       } else {
-        console.log("No Working Dir Set");
-
-        await Neutralino.os.showMessageBox(
-          "Error",
-          "No Working Dir Set, Please select your RogueTech folder or Mods Directory"
-        );
-
-        let entry = await Neutralino.os.showFolderDialog(
-          "Select RogueTech Directory",
-          {
-            defaultPath: NL_CWD,
-          }
-        );
-        console.log(entry);
-        storeSetting("WorkingDir", entry);
-        await Neutralino.app.restartProcess();
+        resetWorkingDir();
       }
       break;
 
@@ -72,4 +57,22 @@ async function storeSetting(setting, data) {
   } catch (error) {
     console.log(error);
   }
+}
+async function resetWorkingDir(){
+  console.log("No Working Dir Set");
+
+        await Neutralino.os.showMessageBox(
+          "Error",
+          "No Working Dir Set, Please select your RogueTech folder or Mods Directory"
+        );
+
+        let entry = await Neutralino.os.showFolderDialog(
+          "Select RogueTech Directory",
+          {
+            defaultPath: NL_CWD,
+          }
+        );
+        console.log(entry);
+        storeSetting("WorkingDir", entry);
+        await Neutralino.app.restartProcess();
 }

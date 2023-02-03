@@ -1,27 +1,15 @@
 //Code to run when json reading is done
 function populateStatus() {
-  document.getElementById("jsonsRead").innerHTML =
-    "Defs Detected :" +
-    "Md:" +
-    MechDef.length +
-    " Cd:" +
-    ChassisDef.length +
-    " Wd:" +
-    Weapon.length +
-    " Hs:" +
-    Heatsink.length +
-    " Up:" +
-    UpgradeDef.length +
-    " JJ:" +
-    JumpJetDef.length;
+  document.getElementById(
+    "jsonsRead"
+  ).innerHTML = `Defs Detected :Md:${MechDef.length} Cd:${ChassisDef.length} Wd:${Weapon.length} Hs:${Heatsink.length} Up:${UpgradeDef.length} JJ:${JumpJetDef.length}`;
 
-  document.getElementById("searchButton").disabled = false;
-  document.getElementById("categoryChooser").removeAttribute("disabled");
+
   document.getElementById("startLoadButton").hidden = true;
 }
 function updateLoad() {
-  document.getElementById("directoriesRead").innerHTML =
-    "Directories's Scanned : " + DirectoriesScanned;
+  // document.getElementById("directoriesRead").innerHTML =
+  //   "Directories's Scanned : " + DirectoriesScanned;
   let TotalCache =
     MechDef.length +
     ChassisDef.length +
@@ -29,8 +17,20 @@ function updateLoad() {
     Heatsink.length +
     UpgradeDef.length +
     JumpJetDef.length;
-  document.getElementById("CacheRead").innerHTML =
-    "CacheStatus : " + cacheCount + " / " + TotalCache;
+  // document.getElementById("CacheRead").innerHTML =
+  //   "CacheStatus : " + cacheCount + " / " + TotalCache;
+    if(TotalCache == cacheCount && cacheCount >0){
+      console.log("Caching Complete");
+      document.getElementById("searchButton").disabled = false;
+      document.getElementById("categoryChooser").removeAttribute("disabled");
+      document.getElementById("cacheBarBar").innerHTML=`Loading Complete.`;
+    }
+    else if (cacheCount == 0){
+      document.getElementById("cacheBarBar").innerHTML=`Scanning Folders: ${DirectoriesScanned}`;
+    }
+    else{
+      updateBar(TotalCache,cacheCount);
+    }
 }
 function showJsonInfo(input) {}
 function updateList() {
@@ -57,15 +57,7 @@ function updateList() {
             });
             //console.log(chassis);
             //console.log(chassis)
-            returnedData =
-              returnedData +
-              "<div class='returnedItem' onclick='findSelected()' onmouseover='highlight(this)' onmouseleave='dehighlight(this)'>" +
-              element.Description.UIName.substr(0) +
-              ":" +
-              chassis.Tonnage +
-              "T : " +
-              chassis.weightClass +
-              "</div>";
+            returnedData = `${returnedData}<div class='returnedItem' onclick='findSelected()' onmouseover='highlight(this)' onmouseleave='dehighlight(this)'>${element.Description.UIName}:${chassis.Tonnage}T : ${chassis.weightClass}</div>`;
           }
         } catch (error) {
           console.log(error);
@@ -82,18 +74,7 @@ function updateList() {
               search.toLowerCase()
             )
           ) {
-            returnedData =
-              returnedData +
-              "<div class='returnedItem'>" +
-              element.Description.UIName.substr(0) +
-              ": " +
-              element.Tonnage +
-              "T :" +
-              "Slots " +
-              element.InventorySize +
-              ": Category " +
-              element.Category +
-              "</div>";
+            returnedData = `${returnedData}<div class='returnedItem'>${element.Description.UIName}: ${element.Tonnage}T :Slots ${element.InventorySize}: Category ${element.Category}</div>`;
           }
         } catch (error) {
           console.log(error);
@@ -110,16 +91,8 @@ function updateList() {
               search.toLowerCase()
             )
           ) {
-            returnedData =
-              returnedData +
-              "<div class='returnedItem'>" +
-              element.Description.UIName.substr(0) +
-              ": " +
-              element.Tonnage +
-              "T :" +
-              "Slots " +
-              element.InventorySize +''
-              "</div>";
+            returnedData = `${returnedData}<div class='returnedItem'>${element.Description.UIName}: ${element.Tonnage}T :Slots ${element.InventorySize}`;
+            ("</div>");
           }
         } catch (error) {
           console.log(error);
@@ -136,16 +109,7 @@ function updateList() {
               search.toLowerCase()
             )
           ) {
-            returnedData =
-              returnedData +
-              "<div class='returnedItem'>" +
-              element.Description.UIName.substr(0) +
-              ": " +
-              element.Tonnage +
-              "T :" +
-              "Slots " +
-              element.InventorySize +
-              "</div>";
+            returnedData = `${returnedData}<div class='returnedItem'>${element.Description.UIName}: ${element.Tonnage}T :Slots ${element.InventorySize}</div>`;
           }
         } catch (error) {
           console.log(error);
@@ -162,16 +126,7 @@ function updateList() {
               search.toLowerCase()
             )
           ) {
-            returnedData =
-              returnedData +
-              "<div class='returnedItem'>" +
-              element.Description.UIName.substr(0) +
-              ": " +
-              element.Tonnage +
-              "T :" +
-              "Slots " +
-              element.InventorySize +
-              "</div>";
+            returnedData = `${returnedData}<div class='returnedItem'>${element.Description.UIName}: ${element.Tonnage}T :Slots ${element.InventorySize}</div>`;
           }
         } catch (error) {
           console.log(error);
@@ -194,18 +149,10 @@ function dehighlight(selected) {
   selected.setAttribute("class", "returnedItem");
   selected.setAttribute("id", "");
 }
-function findSelected() {
-  let data2 = [];
-  let toLoad = document.getElementById("selected");
-  let data = toLoad.innerHTML.split(":").slice();
 
-  mechCache.forEach((element) => {
-    if (element.Description.UIName.includes(data[0])) {
-      console.log(element.Description.UIName + "   " + data[0]);
-      data2 = element;
-    }
-  });
 
-  document.getElementById("editor").innerText = JSON.stringify(data2, null, 0);
-  console.log(data2);
-}
+function updateBar(total,current) {
+  let elem = document.getElementById("cacheBarBar");
+  elem.style.width = `${(current / total) * 100}%`
+  elem.innerHTML = `${Math.round(current/total *100)}%`;
+} 
