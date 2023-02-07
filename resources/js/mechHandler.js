@@ -1,6 +1,6 @@
 let currentMech = [];
-let currentLocations= [];
-let currentChassis=[];
+let currentLocations = [];
+let currentChassis = [];
 function findSelected() {
   let data2 = [];
   let toLoad = document.getElementById("selected");
@@ -37,21 +37,25 @@ function buildMech() {
   ${buildField(currentMech.Description.Rarity, "text", "Rarity")}
   ${buildField(currentMech.Description.UIName, "text", "UIName")}
   </div>`;
-  let locations = `<div class="mechSection">Locations:
-
-  ${buildField(currentMech.Locations.Head, "text", "locHead")}
-  ${buildField(currentMech.Locations.LeftArm, "text", "locLeftArm")}
-  ${buildField(currentMech.Locations.LeftTorso, "text", "locLeftTorso")}
-  ${buildField(currentMech.Locations.CenterTorso, "text", "locCenterTorso")}
-  ${buildField(currentMech.Locations.RightTorso, "text", "locRightTorso")}
-  ${buildField(currentMech.Locations.RightArm, "text", "locRightArm")}
-  ${buildField(currentMech.Locations.LeftLeg, "text", "locLeftLeg")}
-  ${buildField(currentMech.Locations.RightLeg, "text", "locRightLeg")}
+  let locations = `<div class="mechSection">Locations:<br>
+  ${buildLocations()}
   </div>`;
   document.getElementById("editorGUI").innerHTML = `${description}${locations}`;
 }
-function buildLocation(field){
-
+function buildLocations() {
+  let locations = currentMech.Locations;
+  let data = "";
+  let chassisLoc = currentChassis.Locations;
+  locations.forEach((element, index) => {
+    data = `${data}
+  <div class ="mechDetail" >${element.Location}: 
+  FA <input type="number" id="${element.Location}" name="${element.Location}" min="0" max="${chassisLoc[index].MaxArmor}" value="${element.CurrentArmor}">Max:${chassisLoc[index].MaxArmor} ::
+  RA <input type="number" id="${element.Location}" name="${element.Location}" min="0" max="${chassisLoc[index].MaxRearArmor}" value="${element.CurrentRearArmor}">Max:${chassisLoc[index].MaxRearArmor}::
+  STR <input type="number" id="${element.Location}" name="${element.Location}" min="0" max="${chassisLoc[index].InternalStructure}" disabled="true" value="${element.CurrentInternalStructure}"></div>
+  
+  `;
+  });
+  return data;
 }
 function buildField(field, type, label) {
   switch (type) {

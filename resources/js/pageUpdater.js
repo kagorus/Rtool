@@ -19,6 +19,7 @@ function updateLoad() {
     JumpJetDef.length;
   // document.getElementById("CacheRead").innerHTML =
   //   "CacheStatus : " + cacheCount + " / " + TotalCache;
+  //Loading Done
     if(TotalCache == cacheCount && cacheCount >0){
       console.log("Caching Complete");
       document.getElementById("searchButton").disabled = false;
