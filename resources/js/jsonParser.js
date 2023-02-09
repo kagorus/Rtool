@@ -25,8 +25,7 @@ const JsonIgnore = [
   "solaris_offseason_8x8ctf_mech_5.json",
   "Weapon_MeleeAttack.json",
   "Weapon_DFAAttack.json",
-  "Weapon_Laser_AI_Imaginary.json"
-  
+  "Weapon_Laser_AI_Imaginary.json",
 ];
 
 let DirectoriesScanned = 0;
@@ -78,12 +77,17 @@ async function readDir(dir, slash) {
           WorkingDir
       );
     }
-    entries.forEach((current) => {
+    entries.forEach(async (current) => {
       if (current.type == "FILE" && current.entry.substr(-5) == ".json") {
         if (current.entry == "mod.json") {
           readModJson(dir + slash + current.entry, dir);
         } else if (!JsonIgnore.includes(current.entry)) {
           //If Not mod.json
+          //Hashes Files Based on last modified to detect changes
+          let fileDir = dir + "/" + current.entry;
+          let info = await Neutralino.filesystem.getStats(fileDir);
+          fileCache = fileCache + info.modifiedAt;
+          //
           Files.push({ FileName: current.entry, Directory: dir });
         }
       } else if (current.type == "DIRECTORY") {
@@ -139,7 +143,7 @@ function checkDirectories(slash) {
   }
 }
 
-function sortJsons() {
+async function sortJsons() {
   Files.forEach((element) => {
     let lookupPath = element.Directory;
     lookupPath = lookupPath.split("/").pop();
@@ -184,12 +188,19 @@ function sortJsons() {
   console.log("VehicleChassis Detected :  " + VehicleChassisDef.length);
   //CAB TEST CODE DO NOT CALL IT FROM HERE ANYMORE
   //findUnusedModels(ChassisDef,VehicleChassisDef);
-  cacheJsons(MechDef, "Mech");
-  cacheJsons(ChassisDef, "Chassis");
-  cacheJsons(JumpJetDef, "JumpJet");
-  cacheJsons(Weapon, "Weapon");
-  cacheJsons(Heatsink, "Heatsink");
-  cacheJsons(UpgradeDef, "Upgrade");
+  let cacheStatus =  await checkCache(fileCache);
+  console.log(`Cache Status : ${cacheStatus}`)
+  if(!cacheStatus){
+    cacheJsons(MechDef, "Mech");
+    cacheJsons(ChassisDef, "Chassis");
+    cacheJsons(JumpJetDef, "JumpJet");
+    cacheJsons(Weapon, "Weapon");
+    cacheJsons(Heatsink, "Heatsink");
+    cacheJsons(UpgradeDef, "Upgrade");
+
+  }
+  else{
+    readCache();
+  }
+  
 }
-
-

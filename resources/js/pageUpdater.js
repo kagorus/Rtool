@@ -25,6 +25,8 @@ function updateLoad() {
       document.getElementById("searchButton").disabled = false;
       document.getElementById("categoryChooser").removeAttribute("disabled");
       document.getElementById("cacheBarBar").innerHTML=`Loading Complete.`;
+      console.log(fileCache);
+      writeCache();
     }
     else if (cacheCount == 0){
       document.getElementById("cacheBarBar").innerHTML=`Scanning Folders: ${DirectoriesScanned}`;

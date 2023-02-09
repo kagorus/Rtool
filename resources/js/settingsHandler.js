@@ -17,6 +17,13 @@ async function loadSettings() {
   data = await readSetting("WorkingDir");
   let readData = JSON.parse(data);
   appSettings.push({ WorkingDir: readData.Setting });
+  //checks for .cache folder
+  try {
+    await Neutralino.filesystem.readDirectory(NL_PATH +"/.cache");
+  } catch (error) {
+    console.log(error);
+    await Neutralino.filesystem.createDirectory(NL_PATH + '/.cache');
+  }
   getWorkingDir();
 }
 async function getWorkingDir() {
