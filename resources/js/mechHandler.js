@@ -7,7 +7,7 @@ function findSelected() {
   let data = toLoad.innerHTML.split(":").slice();
 
   mechCache.forEach((element) => {
-    if (element.Description.UIName.includes(data[0])) {
+    if (element.Description.UIName == (data[0])) {
       console.log(element.Description.UIName + "   " + data[0]);
       data2 = element;
       chassisCache.forEach((elementChassis) => {

@@ -18,7 +18,12 @@
   <body>
     <div class="mainBody">
       <div class="tools">
-        <div class="menuButton" style="width: 130px" id="restWorkingDir" onclick="resetWorkingDir()">
+        <div
+          class="menuButton"
+          style="width: 130px"
+          id="restWorkingDir"
+          onclick="resetWorkingDir()"
+        >
           Reset Working Dir
         </div>
       </div>
@@ -32,39 +37,59 @@
         <div class="statusBarItem" id="workingDir">Not Set</div>
         <div class="statusBarItem" id="jsonsRead">0</div>
       </div>
-      <div class="buttonContainer">
-        <div class="buttonChooser">
-          <label for="Category"></label>
-
-          <select name="Category" id="categoryChooser" disabled="true">
-            <option value="Weapon">Weapons</option>
-            <option value="MechDef">Mechs</option>
-            <option value="Heatsink">HeatSinks</option>
-            <option value="UpgradeDef">Upgrades</option>
-            <option value="JumpJetDef">JumpJets</option>
-          </select>
-
-          <label for="fname"></label>
-          <input type="text" id="searchBox" name="fname" />
-
-          <label for="fname"></label>
-          <input
-            type="button"
-            id="searchButton"
-            name="fname"
-            disabled="true"
-            onclick="updateList()"
-          />
-        </div>
-        <div class="searchData" id="searchData">
-          <div class="cacheProgess">
-            <span id="cacheBarBar" class="barProgress">Hit Load To Begin</span>
-          </div>
+      <!-- Used to make changes to app settings ect before jsons are loaded. -->
+      <div class="editBody" id="preLoad">Loader</div>
+      <!-- Shows After The App Is Loaded -->
+      <div class="editBody" id="editorChooser" hidden="true">
+        <div class="buttonContainer">
+          <button class="mainMenuButton" id="editMech" onclick="">
+            Edit a mech
+          </button>
+          <button class="mainMenuButton" id="newMech" onclick="">
+            Make a new mech
+          </button>
         </div>
       </div>
-      <div class="editBody">
-        <div id="editorGUI">Counter</div>
-        <textarea id="editor" name="fname"></textarea>
+
+      <!-- Old HTML Not used anymore Remove when replaced fully. -->
+      <div hidden="true">
+        <div class="buttonContainer">
+          <div class="buttonChooser">
+            <label for="Category"></label>
+
+            <select name="Category" id="categoryChooser" disabled="true">
+              <option value="Weapon">Weapons</option>
+              <option value="MechDef">Mechs</option>
+              <option value="Heatsink">HeatSinks</option>
+              <option value="UpgradeDef">Upgrades</option>
+              <option value="JumpJetDef">JumpJets</option>
+            </select>
+
+            <label for="fname"></label>
+            <input type="text" id="searchBox" name="fname" />
+
+            <label for="fname"></label>
+            <input
+              type="button"
+              id="searchButton"
+              name="fname"
+              disabled="true"
+              onclick="updateList()"
+            />
+          </div>
+          <div class="searchData" id="searchData">
+            <div class="cacheProgess">
+              <span id="cacheBarBar" class="barProgress"
+                >Hit Load To Begin</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <div class="editBody">
+          <div id="editorGUI">Counter</div>
+          <textarea id="editor" name="fname"></textarea>
+        </div>
       </div>
     </div>
   </body>
