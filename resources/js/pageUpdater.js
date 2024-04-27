@@ -22,14 +22,12 @@ function updateLoad() {
   //Loading Done
     if(TotalCache == cacheCount && cacheCount >0){
       console.log("Caching Complete");
-      document.getElementById("searchButton").disabled = false;
-      document.getElementById("categoryChooser").removeAttribute("disabled");
       document.getElementById("cacheBarBar").innerHTML=`Loading Complete.`;
-      console.log(fileCache);
-      writeCache();
+      //console.log(fileCache);
+      //writeCache();
     }
     else if (cacheCount == 0){
-      document.getElementById("cacheBarBar").innerHTML=`Scanning Folders: ${DirectoriesScanned}`;
+      document.getElementById("cacheBarBar").innerHTML=`Step 1/2<br>Scanning Folders: ${DirectoriesScanned}`;
     }
     else{
       updateBar(TotalCache,cacheCount);
@@ -157,5 +155,5 @@ function dehighlight(selected) {
 function updateBar(total,current) {
   let elem = document.getElementById("cacheBarBar");
   elem.style.width = `${(current / total) * 100}%`
-  elem.innerHTML = `${Math.round(current/total *100)}%`;
+  elem.innerHTML = `Step 2/2 <br>${Math.round(current/total *100)}%`;
 } 

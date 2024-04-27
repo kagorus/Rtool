@@ -134,6 +134,10 @@ async function checkCache() {
   } catch (error) {
     //Handles Cache File been missing
     console.log(`Error:  ${JSON.stringify(error)}`);
+    await Neutralino.filesystem.writeFile(
+      NL_PATH + "/.cache/hash.json",
+      JSON.stringify(fileCache)
+    );
     return false;
   }
 }

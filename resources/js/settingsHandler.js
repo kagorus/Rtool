@@ -29,7 +29,8 @@ async function loadSettings() {
 async function getWorkingDir() {
   //0 is allways Working Dir
   WorkingDir = appSettings[0].WorkingDir;
-  document.getElementById("workingDir").innerHTML = WorkingDir;
+  await Neutralino.window.setTitle('Rtool :'+WorkingDir);
+  //document.getElementById("workingDir").innerHTML = WorkingDir;
 }
 async function readSetting(setting) {
   // Trys to Read Settings
